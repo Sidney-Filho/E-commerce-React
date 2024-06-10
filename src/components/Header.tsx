@@ -17,6 +17,16 @@ function Header({cartItemsCount, products}: HeaderProps) {
   const [showCatalog, setShowCatalog] = useState(false)
   const navigate = useNavigate()
 
+  function handleAccountClick() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true'
+
+    if(isAuthenticated) {
+      navigate('/account')
+    } else {
+      navigate('/login')
+    }
+  }
+
   function handleSearchChange (e: React.ChangeEvent<HTMLInputElement>) {
     const term = e.target.value
     setSearchTerm(term)
@@ -41,6 +51,7 @@ function Header({cartItemsCount, products}: HeaderProps) {
     setShowCatalog(!showCatalog)
   }
 
+
   return(
     <div className="flex justify-between items-center p-8 bg-zinc-800">
       <div className="flex justify-center items-center gap-5 text-white">
@@ -51,14 +62,15 @@ function Header({cartItemsCount, products}: HeaderProps) {
       </div>
       {showCatalog && ( 
         <div className="absolute top-0 h-full left-0 w-96 z-50">
-          <div className="bg-zinc-600 p-10 shadow-lg flex flex-col">
-            <div className="flex items-center gap-4">
+          <div className="bg-zinc-800 p-10 shadow-lg flex flex-col h-full">
+            <div className="flex justify-start items-center gap-4">
               <FaTimes className="text-white text-2xl cursor-pointer hover:text-red-600" onClick={handleCatalogClick}/>
-              <h3 className="text-2xl text-white">
+              <h3 className="text-3xl text-white">
                 BuyStore
               </h3>
             </div>
-            <Link to="/catalog" className="text-white text-lg cursor-pointer block mt-4">
+              <span className="w-full h-dividerHeight rounded-md bg-zinc-600 mt-6"> </span>
+            <Link to="/catalog" className="text-white text-lg cursor-pointer block mt-4 hover:bg-zinc-600 p-3 rounded-md focus-within:text-orange-500">
               Go to Catalog
             </Link>
           </div>
@@ -70,7 +82,7 @@ function Header({cartItemsCount, products}: HeaderProps) {
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder="Search for a product" 
-          className="rounded-sm border-none w-96 py-2 bg-zinc-700 placeholder:p-4 placeholder:text-zinc-400 text-white p-4"
+          className="rounded-sm border-none w-96 py-2 bg-zinc-700 placeholder:p-4 placeholder:text-zinc-400 text-white p-4 focus-within:outline-none"
         />
         <button className="px-2 bg-orange-600 text-white rounded-sm">Search</button>
 
@@ -102,9 +114,9 @@ function Header({cartItemsCount, products}: HeaderProps) {
           <Link to="/favourites" className="text-2xl text-white cursor-pointer">
             <FaHeart className="hover:text-orange-500"/>
           </Link>
-          <Link to="/account" className="text-2xl text-white cursor-pointer">
-            <FaUser className="hover:text-orange-500"/>
-          </Link>
+            <button onClick={handleAccountClick} className="relative text-2xl text-white cursor-pointer">
+              <FaUser className="hover:text-orange-500"/>
+            </button>
           <Link to="/cart" className="relative text-2xl text-white cursor-pointer">
             <FaShoppingCart className="hover:text-orange-500"/>
           </Link>

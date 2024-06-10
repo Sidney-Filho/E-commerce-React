@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       spacing: {
-        cardHeight: '580px'
+        cardHeight: '580px',
+        dividerHeight: '2px'
       }
     },
   },

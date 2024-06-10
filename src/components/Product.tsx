@@ -12,7 +12,7 @@ interface ProductProps extends ProductType {
   isFavourite: boolean
 }
 
-function Product({id, title, description, price, image, onAddProduct, onAddToFavourites, onRemoveFromFavourites, isFavourite}: ProductProps) {
+function Product({id, title, description, price, image, category, onAddProduct, onAddToFavourites, onRemoveFromFavourites, isFavourite}: ProductProps) {
   // Utiliza o navigate para navegar para renderizar rota do componente ProductDetails
   const navigate = useNavigate()
   const [isFavouriteLocal, setIsFavouriteLocal] = useState(isFavourite)
@@ -31,11 +31,10 @@ function Product({id, title, description, price, image, onAddProduct, onAddToFav
   function handleFavouriteClick() {
     if(isFavouriteLocal) {
       onRemoveFromFavourites(id)
-      setIsFavouriteLocal(false)
     } else {
-      onAddToFavourites({id, title, description, price, image})
-      setIsFavouriteLocal(true)
-    }
+      onAddToFavourites({id, title, description, price, image, category})
+      }
+    setIsFavouriteLocal(!isFavouriteLocal)
   }
 
   return(
@@ -54,12 +53,12 @@ function Product({id, title, description, price, image, onAddProduct, onAddToFav
         <button className='p-3 m-4 rounded-sm text-white text-xl bg-orange-600 hover:bg-orange-700 w-full' onClick={() => onAddProduct(id)}>
           Add to cart
         </button>
-        {isFavourite ? (
-          <FaHeart className='text-3xl text-orange-600' onClick={handleFavouriteClick}/>
+        {isFavouriteLocal ? (
+          <FaHeart data-tooltip-id={`tooltip-heart-${id}`} className='text-3xl text-orange-600 focus-within:outline-none' onClick={handleFavouriteClick}/>
         ) : (
-          <FaRegHeart data-tooltip-id="tooltip-heart" className='text-3xl hover:text-orange-600' onClick={handleFavouriteClick} />
+          <FaRegHeart data-tooltip-id={`tooltip-heart-${id}`} className='text-3xl hover:text-orange-600 focus-within:outline-none' onClick={handleFavouriteClick} />
         )}
-        <Tooltip id='tooltip-heart' content={isFavourite ? 'Remove from wishlits' : 'Add to wishlist'} place='top'/>
+        <Tooltip id={`tooltip-heart-${id}`} content={isFavourite ? 'Remove from wishlit' : 'Add to wishlist'} place='top'/>
       </div>
     </div>
   )

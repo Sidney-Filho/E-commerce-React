@@ -17,21 +17,20 @@ import rtx3050 from './assets/images/rtx_3050.jpg';
 import rtx3060 from './assets/images/rtx_3060.jpg';
 import rtx3070 from './assets/images/rtx_3070.jpg';
 import rtx3080 from './assets/images/rtx_3080.jpg';
+import monitor_1 from './assets/images/monitor_1.jpg';
+import monitor_2 from './assets/images/monitor_2.jpg';
 
 // Variável para adicionar o Id aos produtos
 let nextProductId = 1;
 
 const initialProducts: ProductType[] = [
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3050 Ventus 2X XS 8G OC", description: 'Graphic Card RTX', price: 234.90, image: rtx3050 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3060 Ventus 2X 12G OC", description: 'Graphic Card RTX', price: 294.90, image: rtx3060 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3070 Gaming X Trio 8G", description: 'Graphic Card RTX', price: 659.90, image: rtx3070 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3080 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 87.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
-  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080 },
+  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3050 Ventus 2X XS 8G OC", description: 'Graphic Card RTX', price: 234.90, image: rtx3050, category: 'Graphic Cards' },
+  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3060 Ventus 2X 12G OC", description: 'Graphic Card RTX', price: 294.90, image: rtx3060, category: 'Graphic Cards' },
+  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3070 Gaming X Trio 8G", description: 'Graphic Card RTX', price: 659.90, image: rtx3070, category: 'Graphic Cards' },
+  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 3080 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 87.90, image: rtx3080, category: 'Graphic Cards' },
+  { id: nextProductId++, title: "Graphic Card MSI GeForce RTX 2060 Gaming Z Trio 10G LHR", description: 'Graphic Card RTX', price: 289.90, image: rtx3080, category: 'Graphic Cards' },
+  { id: nextProductId++, title: "Monitor Samsung 24''", description: 'Full HD Monitor', price: 150.00, image: monitor_1, category: 'Monitors' },
+  { id: nextProductId++, title: "Monitor LG 27''", description: 'Full HD Monitor', price: 200.00, image: monitor_2, category: 'Monitors' },
 ];
 
 function App() {
@@ -61,7 +60,7 @@ function App() {
   function handleAddToFavourites(product: ProductType) {
     const isAlreadyFavourite = favourites.some(fav => fav.id === product.id)
     if(isAlreadyFavourite) {
-      window.alert('Esse produto ja foi add')
+      window.alert('This product is already in favourites')
     }
     setFavourites(prevFavourites => [...prevFavourites, product])
   }
@@ -75,11 +74,12 @@ function App() {
     <Router>
       <Header cartItemsCount={cart.length} products={products} />
       <Routes>
-        <Route path='/' element={<HomePage products={products} onAddProduct={handleAddProduct} onAddToFavourites={handleAddToFavourites} />} />
+        <Route path='/' element={<HomePage products={products} onAddProduct={handleAddProduct} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
         <Route path='/catalog' element={<Catalog products={products} onAddProduct={handleAddProduct} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} favourites={favourites} />} />
         <Route path='/cart' element={<Cart cartItems={cart} onDelete={handleDeleteProduct} />} />
         <Route path='/product/:id' element={<ProductDetails products={products} />} />
         <Route path='/favourites' element={<Favourites favourites={favourites} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} />} />
+        <Route/>
       </Routes>
       <Footer />
     </Router>
