@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Product as ProductType } from '../interfaces';
 import Product from './Product';
 
@@ -10,13 +11,25 @@ interface CatalogProps {
   favourites: ProductType[];
 }
 
-// Defina um tipo para as contagens das categorias
 type CategoryCounts = {
   [key: string]: number;
 }
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function Catalog({ products, onAddProduct, onAddToFavourites, onRemoveFromFavourites, favourites }: CatalogProps) {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const query = useQuery();
+  const categoryFromQuery = query.get('category');
+  
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromQuery || 'All');
+
+  useEffect(() => {
+    if (categoryFromQuery) {
+      setSelectedCategory(categoryFromQuery);
+    }
+  }, [categoryFromQuery]);
 
   const categories = useMemo(() => {
     const categoryCounts: CategoryCounts = { All: products.length };
@@ -26,7 +39,11 @@ function Catalog({ products, onAddProduct, onAddToFavourites, onRemoveFromFavour
     return categoryCounts;
   }, [products]);
 
-  const filteredProducts = selectedCategory === 'All' ? products : products.filter(product => product.category === selectedCategory);
+  const filteredProducts = selectedCategory === 'All' 
+    ? products 
+    : selectedCategory === 'rtx' 
+    ? products.filter(product => product.category === 'Graphic Cards' && product.title.includes('RTX')) 
+    : products.filter(product => product.category === selectedCategory);
 
   return (
     <div className="flex gap-6 h-full p-10">

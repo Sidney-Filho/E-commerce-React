@@ -28,6 +28,13 @@ function Product({id, title, description, price, image, category, onAddProduct, 
     return text
   }
 
+  function truncateTitle (text: string, maxLenght: number) {
+    if(text.length > maxLenght) {
+      return text.substring(0, maxLenght) + '...'
+    }
+    return text
+  }
+
   function handleFavouriteClick() {
     if(isFavouriteLocal) {
       onRemoveFromFavourites(id)
@@ -43,9 +50,9 @@ function Product({id, title, description, price, image, category, onAddProduct, 
         <img src={image} className='rounded-md w-full transform transition-transform duration-300 hover:scale-105' />
       </div>
       <div className='p-4 flex flex-col gap-3 h-full'>
-        <h3 className='text-lg font-bold hover:text-orange-500 cursor-pointer' onClick={() => navigate(`/product/${id}`)}>{title}</h3>
+        <h3 className='text-lg hover:text-orange-500 cursor-pointer' onClick={() => navigate(`/product/${id}`)}>{truncateTitle(title, 50)}</h3>
         <p className='text-base w-full overflow-hidden overflow-ellipsis'>
-          {truncateDescription(description, 100)}
+          {truncateDescription(description, 30)}
         </p>
         <span className='text-xl'>${price.toFixed(2)}</span>
       </div>

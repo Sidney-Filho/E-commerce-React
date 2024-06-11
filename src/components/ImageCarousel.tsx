@@ -5,6 +5,7 @@ import './styles/carousel.css'
 import banner1 from '../assets/images/bannerImg/banner-1.jpg'
 import banner2 from '../assets/images/bannerImg/banner-2.jpg'
 import banner3 from '../assets/images/bannerImg/banner-3.jpg'
+import banner4 from '../assets/images/bannerImg/banner-4.jpg'
 
 function ImageCarousel() {
   return(
@@ -25,6 +26,9 @@ function ImageCarousel() {
         </div>
         <div>
           <img src={banner3} alt="Image 3" className="w-full h-96 object-cover" />
+        </div>
+        <div>
+          <img src={banner4} alt="Image 3" className="w-full h-96 object-cover" />
         </div>
       </Carousel>
     </div>

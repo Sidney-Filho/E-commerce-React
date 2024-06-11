@@ -22,5 +22,29 @@
 }
 
 .carousel .dot.selected {
-  background: #cc6d00;
+  background: white;
+}
+
+/* Modifique os estilos padrão do slick-carousel */
+.slick-prev:before, .slick-next:before {
+  color: white; /* Cor personalizada para os botões de navegação */
+}
+
+/* Estilo para os pontos de navegação */
+.slick-dots li button:before {
+  color: #ff6600; /* Cor dos pontos inativos */
+}
+
+.slick-dots li.slick-active button:before {
+  color: #ff6600; /* Cor dos pontos ativos */
+}
+
+/* Adicione estilos personalizados ao container do carrossel */
+.custom-carousel .slick-slide {
+  padding: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.custom-carousel .slick-slide:hover {
+  transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
 }
