@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FaShoppingCart, FaUser, FaHeart, FaTimes } from "react-icons/fa";
-import { BsList, BsSearch } from "react-icons/bs";
+import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
+import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { Product as ProductType } from "../interfaces";
 
@@ -14,16 +14,6 @@ function Header({ cartItemsCount, products }: HeaderProps) {
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [showCatalog, setShowCatalog] = useState(false);
   const navigate = useNavigate();
-
-  function handleAccountClick() {
-    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
-    if (isAuthenticated) {
-      navigate("/account");
-    } else {
-      navigate("/login");
-    }
-  }
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     const term = e.target.value;
@@ -66,8 +56,9 @@ function Header({ cartItemsCount, products }: HeaderProps) {
         >
           <div className="bg-zinc-800 p-10 shadow-lg flex flex-col h-screen">
             <div className="flex justify-start items-center gap-4">
-              <FaTimes
-                className="text-white text-2xl cursor-pointer hover:text-red-600"
+              <BsX
+                size={38}
+                className="text-white text-2xl cursor-pointer"
                 onClick={handleCatalogClick}
               />
               <h3 className="text-3xl text-white">BuyStore</h3>
@@ -121,8 +112,10 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           <Link to="/favourites" className="text-2xl text-white cursor-pointer">
             <FaHeart className="hover:text-orange-500" />
           </Link>
-          <button onClick={handleAccountClick} className="relative text-2xl text-white cursor-pointer">
-            <FaUser className="hover:text-orange-500" />
+          <button className="relative text-2xl text-white cursor-pointer">
+            <Link to="/dashboard">
+              <FaUser className="hover:text-orange-500" />
+            </Link>
           </button>
           <Link to="/cart" className="relative text-2xl text-white cursor-pointer">
             <FaShoppingCart className="hover:text-orange-500" />

@@ -8,7 +8,10 @@ interface CartProps {
 
 function Cart({cartItems, onDelete}: CartProps) {
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0)
+  const total = cartItems.reduce((sum, item) => {
+    const itemPrice = item.promoPrice ? item.promoPrice : item.price
+    return sum + itemPrice
+  }, 0)
 
 
   return(
@@ -25,7 +28,18 @@ function Cart({cartItems, onDelete}: CartProps) {
                   <div className="flex flex-col">
                     <h3 className="text-xl font-bold">{item.title}</h3>
                     <p>{item.description}</p>
-                    <span>${item.price.toFixed(2)}</span>
+                    <div className="flex">
+                      {item.promoPrice ? (
+                        <div className="flex gap-2">
+                          <span className="text-orange-500">${item.promoPrice?.toFixed(2)}</span>
+                          <span className="line-through">${item.price.toFixed(2)}</span>
+                        </div>
+                      ) : (
+                        <div>
+                          <span>${item.price.toFixed(2)}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="p-4">
                     <button className="text-white text-2xl p-4 hover:text-red-600" onClick={() => onDelete(item.id)}>
