@@ -38,13 +38,14 @@ function Dashboard() {
           <div className='mt-6'>
             <p className='text-xl'>Your e-mail: {user?.email}</p>
           </div>
-          <div className='flex justify-between items-center'>
-            <button className='mt-4 text-xl hover:text-orange-500' onClick={logout}>Logout</button>
-            <div className='mt-20'>
-              <button className='p-4 border-2 rounded-md border-red-600 hover:bg-red-600 text-white' onClick={() => handleDeleteAccount(user?.id)}>Delete Your Account</button>
+          <div className='mt-20'>
+            <button 
+              className='p-4 border-2 rounded-md border-red-600 hover:bg-red-600 text-white' 
+              onClick={() => handleDeleteAccount(user?.id)}>
+              Delete Your Account
+            </button>
               {deleteStatus === 'success' && <p className='text-green-500 mt-2'>Account deleted successfully</p>}
               {deleteStatus === 'error' && <p className='text-red-500 mt-2'>Failed to delete account</p>}
-            </div>
           </div>
         </div>
         <Toaster/>

@@ -9,7 +9,6 @@ function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login } = useAuth()
-  //const navigate = useNavigate()
 
   const handleLogin = async (e: React.FormEvent <HTMLFormElement>) => {
     e.preventDefault()
@@ -43,29 +42,29 @@ function LoginPage() {
         <h3 className="text-4xl text-center mb-8 font-bold">Login</h3>
         <form action="POST" method="POST" onSubmit={handleLogin}>
           <div className="flex flex-col gap-2 mb-6">
-            <label id="email" htmlFor="email">Email</label>
+            <label id="email" htmlFor="email" className="font-bold">Email</label>
             <input 
               name="email" 
               type="text" 
               placeholder="Email" 
-              className="p-2 text-black"
+              className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none"
               value={email}
               onChange={(e) => setEmail(e.target.value)} 
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label id="password" htmlFor="">Password</label>
+            <label id="password" htmlFor="password" className="font-bold">Password</label>
             <input 
               name="password" 
               type="password" 
               placeholder="Password" 
-              className="p-2 text-black"
+              className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex justify-center items-center mt-10">
-              <button type="submit" className="p-4 bg-orange-500 w-full">
+              <button type="submit" className="p-4 bg-orange-500 w-full hover:bg-orange-600">
                   Login
               </button>
           </div>

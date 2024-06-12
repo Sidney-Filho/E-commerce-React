@@ -3,6 +3,8 @@ import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { Product as ProductType } from "../interfaces";
+import { useAuth } from "./AuthContext";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface HeaderProps {
   cartItemsCount: number;
@@ -13,7 +15,9 @@ function Header({ cartItemsCount, products }: HeaderProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
   const [showCatalog, setShowCatalog] = useState(false);
+  const [showModalUser, setShowModalUser] = useState(false)
   const navigate = useNavigate();
+  const { user, logout } = useAuth()
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     const term = e.target.value;
@@ -39,8 +43,19 @@ function Header({ cartItemsCount, products }: HeaderProps) {
     setShowCatalog(!showCatalog);
   }
 
+  function handleShowModalUser() {
+    setShowModalUser(!showModalUser)
+  }
+
+  function handleLogout() {
+    logout()
+    toast.success('Successfuly logout!')
+
+  }
+
   return (
     <div className="relative">
+      <Toaster/>
       {showCatalog && <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"></div>}
       <div className="flex justify-between items-center p-8 bg-zinc-800 shadow-md relative z-50">
         <div className="flex justify-center items-center gap-5 text-white">
@@ -64,6 +79,13 @@ function Header({ cartItemsCount, products }: HeaderProps) {
               <h3 className="text-3xl text-white">BuyStore</h3>
             </div>
             <span className="w-full h-dividerHeight rounded-md bg-zinc-600 mt-6"></span>
+            <Link 
+              to='/' 
+              className="text-white text-lg cursor-pointer block mt-4 hover:bg-zinc-600 p-3 rounded-md focus-within:text-orange-500"
+              onClick={handleCatalogClick}
+            >
+                Home
+            </Link>
             <Link
               to="/catalog"
               className="text-white text-lg cursor-pointer block mt-4 hover:bg-zinc-600 p-3 rounded-md focus-within:text-orange-500"
@@ -108,18 +130,50 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           )}
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex gap-8 relative">
           <Link to="/favourites" className="text-2xl text-white cursor-pointer">
             <FaHeart className="hover:text-orange-500" />
           </Link>
-          <button className="relative text-2xl text-white cursor-pointer">
-            <Link to="/dashboard">
-              <FaUser className="hover:text-orange-500" />
-            </Link>
+          <button className="text-lg text-white cursor-pointer" onClick={handleShowModalUser}>
+            <div
+              className={`bg-zinc-700 rounded-md absolute top-12 h-fit left-[-100px] z-50 ${ showModalUser ? "translate-y-0" : "-translate-y-96"}`}
+            >
+                {user ? (
+                <div>
+                  <Link to="/dashboard" className="text-lg text-white cursor-pointer">
+                    <div className="flex justify-center items-center gap-2 border-b-2 border-b-zinc-500 w-64 p-2 bg-zinc-700 hover:bg-zinc-600 rounded-t-lg">
+                      <FaUser />
+                      <p>My Dashboard</p>
+                    </div>
+                  </Link>
+                  <div className="p-2 bg-zinc-700 hover:bg-zinc-600 rounded-b-lg">
+                    <button onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </div>
+                <div>
+                    
+                  </div>
+                </div>
+              ) : (
+                <button className="text-lg text-white cursor-pointer" onClick={handleShowModalUser}>
+                    <Link to='/login'>
+                      <div className="flex justify-center items-center gap-2 w-64 p-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg">
+                        <FaUser />
+                        <p>Login</p>
+                      </div>
+                    </Link>
+                  </button>
+                )}
+            </div>
+
+            <FaUser className="hover:text-orange-500 text-2xl"/>
           </button>
+
           <Link to="/cart" className="relative text-2xl text-white cursor-pointer">
             <FaShoppingCart className="hover:text-orange-500" />
           </Link>
+
         </div>
         {cartItemsCount > 0 && (
           <span className="absolute top-6 right-5 bg-orange-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
