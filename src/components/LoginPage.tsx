@@ -64,12 +64,13 @@ function LoginPage() {
             />
           </div>
           <div className="flex justify-center items-center mt-10">
-              <button type="submit" className="p-4 bg-orange-500 w-full hover:bg-orange-600">
+              <button type="submit" className="p-4 bg-orange-500 w-2/4 hover:bg-orange-600 rounded-md">
                   Login
               </button>
           </div>
-          <div className="mt-6 text-base text-center text-orange-400 hover:text-orange-600">
-            <Link to='/create-account'>
+          <div className="flex gap-2 justify-center items-center mt-6 text-base text-center">
+            <p>Don't have an account? </p>
+            <Link to='/create-account' className="text-orange-400 hover:text-orange-600">
               Create Account
             </Link>
           </div>

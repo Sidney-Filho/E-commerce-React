@@ -12,11 +12,12 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ products, onAddProduct }) => {
   
-  // Filtra os produtos RTX
+  // Verifica se os produtos não retornam nulo
   if(!products) {
     return null
   }
-  const rtxProducts = products.filter(product => product.category === 'Graphic Cards' && product.title.includes('RTX'));
+  // Filtra os produtos RTX
+  const rtxProducts = products.filter(product => product.category === 'GraphicCards' && product.title.includes('RTX'));
 
   return (
     <div>
@@ -27,7 +28,7 @@ const HomePage: React.FC<HomePageProps> = ({ products, onAddProduct }) => {
             <span className='h-6 w-1 bg-orange-500'></span>
             <h2 className='text-2xl font-bold text-white'>RTX Graphics Cards</h2>
           </div>
-          <Link to="/catalog?category=rtx" className='text-white p-4 mt-4 border border-orange-500 rounded-md hover:bg-orange-500'>View All RTX Cards</Link>
+          <Link to="/catalog?category=GraphicCards" className='text-white p-4 mt-4 border border-orange-500 rounded-md hover:bg-orange-500'>View All RTX Cards</Link>
         </div>
         <ProductSlider products={rtxProducts} onAddProduct={onAddProduct} />
       </section>

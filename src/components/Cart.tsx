@@ -9,10 +9,11 @@ interface CartProps {
 function Cart({cartItems, onDelete}: CartProps) {
 
   const total = cartItems.reduce((sum, item) => {
-    const itemPrice = item.promoPrice ? item.promoPrice : item.price
+    const itemPrice = item.promoPrice !== undefined ? item.promoPrice : item.price;
     return sum + itemPrice
-  }, 0)
+  }, 0);
 
+  console.log(total)
 
   return(
     <div className="p-8 text-white h-screen">
@@ -31,12 +32,12 @@ function Cart({cartItems, onDelete}: CartProps) {
                     <div className="flex">
                       {item.promoPrice ? (
                         <div className="flex gap-2">
-                          <span className="text-orange-500">${item.promoPrice?.toFixed(2)}</span>
-                          <span className="line-through">${item.price.toFixed(2)}</span>
+                          <span className="text-orange-500">${item.promoPrice}</span>
+                          <span className="line-through">${item.price}</span>
                         </div>
                       ) : (
                         <div>
-                          <span>${item.price.toFixed(2)}</span>
+                          <span>${item.price}</span>
                         </div>
                       )}
                     </div>
@@ -52,7 +53,7 @@ function Cart({cartItems, onDelete}: CartProps) {
           </div>
           <div className="w-3/12 h-1/2 bg-zinc-700 p-6 rounded-md text-white">
             <p>
-              Total: ${total.toFixed(2)}
+              Total: ${total}
             </p>
           </div>
         </div>

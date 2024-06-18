@@ -54,22 +54,45 @@ function RegisterPage() {
     <div className="w-full pb-36 flex justify-center items-start mt-20 text-white">
       <Toaster/>
       <div className="bg-zinc-800 p-10 w-2/4">
-        <h3 className="text-2xl text-center mb-6 font-bold">Register</h3>
+        <h3 className="text-4xl text-center mb-8 font-bold">Register</h3>
         <form action="POST" method="POST" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2 mb-6">
-            <label id="username" htmlFor="username"> Username </label>
-            <input name="username" value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" className="p-2 text-black" required />
+            <label id="username" htmlFor="username" className="font-bold"> Username </label>
+            <input 
+              name="username" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              type="text" 
+              placeholder="Username" 
+              className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none" 
+              required 
+            />
           </div>
           <div className="flex flex-col gap-2 mb-6">
-            <label id="email" htmlFor="email"> Email </label>
-            <input name="email" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" className="p-2 text-black" required />
+            <label id="email" htmlFor="email" className="font-bold"> Email </label>
+            <input 
+              name="email" value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              type="email" 
+              placeholder="Email" 
+              className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none" 
+              required 
+            />
           </div>
           <div className="flex flex-col gap-2">
-            <label id="password" htmlFor=""> Password </label>
-            <input name="password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="p-2 text-black" required/>
+            <label id="password" htmlFor="password" className="font-bold"> Password </label>
+            <input 
+              name="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              type="password" 
+              placeholder="Password" 
+              className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none" 
+              required
+            />
           </div>
           <div className="flex justify-center items-center mt-10">
-            <button type="submit" className="p-4 bg-orange-500 w-full">
+            <button type="submit" className="p-4 bg-orange-500 w-2/4 hover:bg-orange-600 rounded-md">
               Create Account
             </button>
           </div>

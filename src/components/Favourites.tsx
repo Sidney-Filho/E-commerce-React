@@ -24,7 +24,9 @@ function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites}: Fav
             onAddProduct={() => {}} 
             onAddToFavourites={onAddToFavourites}
             onRemoveFromFavourites={onRemoveFromFavourites} 
-            isFavourite={true} />
+            isFavourite={true} 
+            updatedRating={product.rating}
+          />
         ))}
       </main>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +18,39 @@ function Header({ cartItemsCount, products }: HeaderProps) {
   const [showModalUser, setShowModalUser] = useState(false)
   const navigate = useNavigate();
   const { user, logout } = useAuth()
+
+  // Refs for the menu and user modal
+  const menuRef = useRef<HTMLDivElement>(null);
+  const userModalRef = useRef<HTMLDivElement>(null);
+
+  // Effect para controlar o scroll do body quando o menu estiver aberto
+  useEffect(() => {
+    if (showCatalog || showModalUser) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto'; // Restaura para o comportamento default
+    };
+  }, [showCatalog, showModalUser]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if(showCatalog && menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowCatalog(false)
+      }
+      if(showModalUser && userModalRef.current && !userModalRef.current.contains(event.target as Node)) {
+        setShowModalUser(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return() => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  },[showCatalog, showModalUser])
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     const term = e.target.value;
@@ -49,22 +82,34 @@ function Header({ cartItemsCount, products }: HeaderProps) {
 
   function handleLogout() {
     logout()
-    toast.success('Successfuly logout!')
+    toast.success('Successfuly logged out!')
+  }
 
+  function handleSearch() {
+    navigate(`/catalog?search=${encodeURIComponent(searchTerm)}`);
+    setSearchTerm("");
+    setFilteredProducts([]);
+  }
+
+  function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   }
 
   return (
     <div className="relative">
       <Toaster/>
-      {showCatalog && <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"></div>}
+      {showCatalog && <div className="fixed top-0 left-0 w-full h-dvh bg-black opacity-50 z-40"></div>}
       <div className="flex justify-between items-center p-8 bg-zinc-800 shadow-md relative z-50">
         <div className="flex justify-center items-center gap-5 text-white">
-          <BsList className="text-3xl cursor-pointer" onClick={handleCatalogClick} />
+          <BsList className="text-3xl cursor-pointer hover:text-orange-500 transition-colors" onClick={handleCatalogClick} />
           <Link to="/">
             <h1 className="text-3xl">BuyStore</h1>
           </Link>
         </div>
         <div
+          ref={menuRef}
           className={`absolute top-0 h-full left-0 w-96 z-50 transform transition-transform duration-300 ${
             showCatalog ? "translate-x-0" : "-translate-x-full"
           }`}
@@ -73,7 +118,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
             <div className="flex justify-start items-center gap-4">
               <BsX
                 size={38}
-                className="text-white text-2xl cursor-pointer"
+                className="text-white text-2xl cursor-pointer hover:text-orange-500 transition-colors"
                 onClick={handleCatalogClick}
               />
               <h3 className="text-3xl text-white">BuyStore</h3>
@@ -104,10 +149,11 @@ function Header({ cartItemsCount, products }: HeaderProps) {
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
+              onKeyPress={handleKeyPress}
               placeholder="Search for a product"
               className="rounded-sm border-none w-96 py-2 bg-zinc-700 placeholder:p-1 placeholder:text-zinc-400 text-white px-10 focus-within:outline-none"
             />
-            <button className="px-2 bg-orange-600 text-white rounded-sm">Search</button>
+            <button onClick={handleSearch} className="px-2 bg-orange-600 hover:bg-orange-500 text-white rounded-sm">Search</button>
           </div>
 
           {searchTerm && (
@@ -134,41 +180,36 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           <Link to="/favourites" className="text-2xl text-white cursor-pointer">
             <FaHeart className="hover:text-orange-500" />
           </Link>
-          <button className="text-lg text-white cursor-pointer" onClick={handleShowModalUser}>
+          <div ref={userModalRef} className="text-lg text-white cursor-pointer text-center" onClick={handleShowModalUser}>
             <div
               className={`bg-zinc-700 rounded-md absolute top-12 h-fit left-[-100px] z-50 ${ showModalUser ? "translate-y-0" : "-translate-y-96"}`}
             >
                 {user ? (
-                <div>
-                  <Link to="/dashboard" className="text-lg text-white cursor-pointer">
-                    <div className="flex justify-center items-center gap-2 border-b-2 border-b-zinc-500 w-64 p-2 bg-zinc-700 hover:bg-zinc-600 rounded-t-lg">
-                      <FaUser />
-                      <p>My Dashboard</p>
-                    </div>
-                  </Link>
-                  <div className="p-2 bg-zinc-700 hover:bg-zinc-600 rounded-b-lg">
-                    <button onClick={handleLogout}>
+                  <div>
+                    <Link to="/dashboard" className="text-lg text-white cursor-pointer">
+                      <div className="flex justify-center items-center gap-2 border-b-2 border-b-zinc-500 w-64 p-2 bg-zinc-700 hover:bg-zinc-600 rounded-t-lg">
+                        <FaUser />
+                        <p>My Dashboard</p>
+                      </div>
+                    </Link>
+                    <div className="p-2 bg-zinc-700 hover:bg-zinc-600 rounded-b-lg">
+                    <div onClick={handleLogout}>
                       Logout
-                    </button>
-                  </div>
-                <div>
-                    
+                    </div>
                   </div>
                 </div>
               ) : (
-                <button className="text-lg text-white cursor-pointer" onClick={handleShowModalUser}>
-                    <Link to='/login'>
+                    <Link to='/login' className="text-lg text-white cursor-pointer" onClick={handleShowModalUser}>
                       <div className="flex justify-center items-center gap-2 w-64 p-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg">
                         <FaUser />
                         <p>Login</p>
                       </div>
                     </Link>
-                  </button>
                 )}
             </div>
 
             <FaUser className="hover:text-orange-500 text-2xl"/>
-          </button>
+          </div>
 
           <Link to="/cart" className="relative text-2xl text-white cursor-pointer">
             <FaShoppingCart className="hover:text-orange-500" />
