@@ -1,4 +1,3 @@
-import React from "react";
 import ReactStars from "react-stars";
 
 interface StarRatingProps {
@@ -8,6 +7,7 @@ interface StarRatingProps {
 }
 
 const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, editable }) => {
+
   return (
     <ReactStars
       count={5} // Número total de estrelas

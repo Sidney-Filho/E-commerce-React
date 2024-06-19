@@ -3,11 +3,12 @@ import Product from "./Product"
 
 interface FavouritesProps {
   favourites: ProductType[]
-  onAddToFavourites: (product: ProductType) => void
-  onRemoveFromFavourites: (id: number) => void
+  onAddToFavourites: (product: ProductType) => void;
+  onRemoveFromFavourites: (id: number) => void;
+  onUpdatedRating: (id: number) => void;
 }
 
-function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites}: FavouritesProps) {
+function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites, onUpdatedRating}: FavouritesProps) {
   return(
     <div className="flex gap-10 h-screen p-10">
       <aside className="flex flex-col bg-zinc-800 rounded-sm p-10 w-64 h-60">
@@ -26,6 +27,7 @@ function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites}: Fav
             onRemoveFromFavourites={onRemoveFromFavourites} 
             isFavourite={true} 
             updatedRating={product.rating}
+            onUpdatedRating={onUpdatedRating}
           />
         ))}
       </main>

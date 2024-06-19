@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Product } from "../interfaces";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaTrashAlt } from "react-icons/fa";
 import StarRating from "./StarRating";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -19,6 +19,7 @@ interface ProductDetailsProps {
   onAddToFavourites: (product: Product) => void;
   onRemoveFromFavourites: (id: number) => void;
   favourites: Product[];
+  onUpdateProductRating: (id: number, newRating: number) => void; 
 }
 
 function ProductDetails({
@@ -27,6 +28,7 @@ function ProductDetails({
   favourites,
   onAddToFavourites,
   onRemoveFromFavourites,
+  onUpdateProductRating
 }: ProductDetailsProps) {
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p.id === Number(id));
@@ -38,20 +40,23 @@ function ProductDetails({
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get('http://localhost/ecommerce/api/getReviews.php', {
-          params: { productId: id }
-        });
+        const response = await axios.get(`http://localhost/ecommerce/api/getReviews.php?productId=${id}`);
         setReviews(response.data);
 
         const totalRating = response.data.reduce((acc: number, review: Review) => acc + review.rating, 0);
         const avgRating = response.data.length ? totalRating / response.data.length : 0;
         setAverageRating(avgRating);
+
+        if (product) {
+          onUpdateProductRating(product.id, avgRating);
+        }
+
       } catch (error) {
         console.error('Error fetching reviews', error);
       }
     };
     fetchReviews();
-  }, [id]);
+  }, [id, product, onUpdateProductRating]);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -61,7 +66,7 @@ function ProductDetails({
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost/ecommerce/api/postReviews.php', {
+      const response = await axios.post('http://localhost/ecommerce/api/postReview.php', {
         productId: product?.id,
         rating: rating,
         text: reviewText,
@@ -71,8 +76,12 @@ function ProductDetails({
       const newReview = response.data.review;
       setReviews((prevReviews) => [...prevReviews, newReview]);
 
-      const avgRating = parseFloat(response.data.averageRating)
+      const avgRating = parseFloat(response.data.averageRating);
       setAverageRating(avgRating);
+
+      if (product) {
+        onUpdateProductRating(product.id, avgRating); // Atualiza o rating do produto após a submissão da avaliação
+      }
 
       setRating(0);
       setReviewText('');
@@ -80,6 +89,28 @@ function ProductDetails({
       console.error('Error saving review', error);
     }
   };
+
+  const handleDeleteReview = async (reviewId: number) => {
+    try {
+      const response = await axios.delete(`http://localhost/ecommerce/api/deleteReview.php?reviewId=${reviewId}`);
+      console.log('Review deleted: ', response.data);
+  
+      // Atualiza o estado local removendo o review deletado
+      setReviews(reviews.filter(review => review.id !== reviewId));
+  
+      // Recalcula a média de rating após a remoção do review
+      const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+      const newAverageRating = reviews.length > 1 ? totalRating / (reviews.length - 1) : 0;
+      setAverageRating(newAverageRating);
+  
+      if (product) {
+        onUpdateProductRating(product.id, newAverageRating); // Atualiza o rating do produto no estado global
+      }
+    } catch (error) {
+      console.error('Error deleting review', error);
+    }
+  };
+  
 
   if (!product) {
     return <div>Product Not Found</div>;
@@ -100,14 +131,14 @@ function ProductDetails({
     <div className="flex flex-col">
       <div className="flex gap-5 p-8 h-full">
         <div className="p-4 bg-zinc-800 rounded-md">
-          <img src={product.image} alt="Product image" className="rounded-md" />
+          <img src={product.image} alt="Product image" className="rounded-md h-full object-cover" />
         </div>
         <div className="w-4/5 bg-zinc-800 p-10 text-white rounded-md">
           <h2 className="text-4xl mb-2">{product.title}</h2>
           <div className="mb-10 flex items-center gap-2">
             <StarRating rating={averageRating} editable={false} />
             <p className='font-bold text-xs'>
-              {`${averageRating} / 5`}
+              {`${averageRating.toFixed(2)} / 5`}
             </p>
           </div>
           <div>
@@ -127,7 +158,7 @@ function ProductDetails({
               </div>
             )}
           </div>
-          <div className="mt-14 min-h-60">
+          <div className="mt-14 min-h-96">
             <h2 className="text-lg font-bold mb-2">Description</h2>
             <p className="text-xl">{product.description}</p>
           </div>
@@ -184,6 +215,9 @@ function ProductDetails({
                 <div className="flex items-center mb-2">
                   <StarRating rating={review.rating} editable={false} />
                   <span className="ml-2 text-white">{review.rating} / 5</span>
+                  <button className="ml-auto text-white hover:text-red-500" onClick={() => handleDeleteReview(review.id)}>
+                    <FaTrashAlt/>
+                  </button>
                 </div>
                 <p className="text-white">{review.text}</p>
                 <p className="text-sm text-white">

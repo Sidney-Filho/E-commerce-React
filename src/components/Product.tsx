@@ -11,6 +11,7 @@ interface ProductProps extends ProductType {
   onRemoveFromFavourites: (id: number) => void;
   isFavourite: boolean;
   updatedRating: number;
+  onUpdatedRating: (id: number, newRating: number) => void;
 }
 
 function Product({
@@ -26,7 +27,8 @@ function Product({
   onAddToFavourites,
   onRemoveFromFavourites,
   isFavourite,
-  updatedRating
+  updatedRating,
+  onUpdatedRating
 }: ProductProps) {
   const navigate = useNavigate();
   const [isFavouriteLocal, setIsFavouriteLocal] = useState(isFavourite);
@@ -54,7 +56,6 @@ function Product({
     return undefined;
   }
 
-
   return (
     <div className="flex flex-col bg-zinc-800 p-3 rounded-md w-72 h-cardHeight text-white relative">
       <div className="w-full h-full overflow-hidden cursor-pointer" onClick={() => navigate(`/product/${id}`)}>
@@ -69,8 +70,12 @@ function Product({
           {title}
         </h3>
         <div className="flex items-center gap-2 justify-start">
-            <StarRating rating={updatedRating} editable={false} />
-            <p className="font-bold text-xs">{`${updatedRating} / 5`}</p>
+          <StarRating
+            rating={updatedRating}
+            editable={false}
+            onRatingChange={(newRating) => onUpdatedRating(id, newRating)}
+          />
+          <p className="font-bold text-xs">{`${updatedRating.toFixed(2)} / 5`}</p>
         </div>
         <p className="text-base w-full truncate h-6">{description}</p>
         <div className="font-bold">
