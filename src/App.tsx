@@ -2,7 +2,7 @@
 
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
-import { Product as ProductType } from './interfaces';
+import { Product as ProductType } from './interfaces/interfaces';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './components/AuthContext';

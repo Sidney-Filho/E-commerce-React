@@ -1,4 +1,4 @@
-import { Product } from "../interfaces"
+import { Product } from "../interfaces/interfaces"
 import { FaTimes } from "react-icons/fa"
 
 interface CartProps {

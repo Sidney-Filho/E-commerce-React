@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Product as ProductType } from '../interfaces';
+import { Product as ProductType } from '../interfaces/interfaces';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
 import StarRating from './StarRating';

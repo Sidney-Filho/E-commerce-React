@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import { Product as ProductType } from "../interfaces";
+import { Product as ProductType } from "../interfaces/interfaces";
 import { useAuth } from "./AuthContext";
 import toast, { Toaster } from 'react-hot-toast';
 

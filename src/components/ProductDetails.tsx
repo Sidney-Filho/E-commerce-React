@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Product } from "../interfaces";
+import { Product } from "../interfaces/interfaces";
 import { FaHeart, FaRegHeart, FaTrashAlt } from "react-icons/fa";
 import StarRating from "./StarRating";
 import { useEffect, useState } from "react";

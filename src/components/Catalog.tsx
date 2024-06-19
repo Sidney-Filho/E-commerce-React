@@ -1,6 +1,6 @@
   import { useState, useMemo, useEffect } from 'react';
   import { useLocation } from 'react-router-dom';
-  import { Product as ProductType } from '../interfaces';
+  import { Product as ProductType } from '../interfaces/interfaces';
   import Product from './Product';
 
   interface CatalogProps {
