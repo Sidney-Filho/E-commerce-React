@@ -6,12 +6,12 @@ interface StarRatingProps {
   editable?: boolean
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, editable }) => {
+const StarRating: React.FC<StarRatingProps> = ({ rating, onRatingChange, editable = false }) => {
 
   return (
     <ReactStars
       count={5} // Número total de estrelas
-      value={rating} // Valor da classificação
+      value={rating} // Valora da classificação
       size={22} // Tamanho das estrelas
       activeColor="#ffd700" // Cor das estrelas ativas
       edit={editable} // Impedir que o usuário interaja com as estrelas

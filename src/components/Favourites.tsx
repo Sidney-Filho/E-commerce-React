@@ -10,8 +10,8 @@ interface FavouritesProps {
 
 function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites, onUpdatedRating}: FavouritesProps) {
   return(
-    <div className="flex gap-10 h-screen p-10">
-      <aside className="flex flex-col bg-zinc-800 rounded-sm p-10 w-64 h-60">
+    <div className="flex gap-10 h-full p-10 relative">
+      <aside className="flex flex-col bg-zinc-800 rounded-sm p-10 w-64 h-60 sticky self-start top-10">
         <div className="text-white">
           <h3 className="text-3xl font-bold">Favourites</h3>
           <p>{favourites.length} results.</p>

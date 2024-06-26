@@ -25,7 +25,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
 
   // Effect para controlar o scroll do body quando o menu estiver aberto
   useEffect(() => {
-    if (showCatalog || showModalUser) {
+    if (showCatalog) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -34,7 +34,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
     return () => {
       document.body.style.overflow = 'auto'; // Restaura para o comportamento default
     };
-  }, [showCatalog, showModalUser]);
+  }, [showCatalog]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

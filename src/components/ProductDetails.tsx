@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
-import { Product } from "../interfaces/interfaces";
-import { FaHeart, FaRegHeart, FaTrashAlt } from "react-icons/fa";
-import StarRating from "./StarRating";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { FaHeart, FaRegHeart, FaTrashAlt } from 'react-icons/fa';
+import axios from 'axios';
+import StarRating from './StarRating';
+import { useAuth } from './AuthContext';
+import { Product } from '../interfaces/interfaces';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Review {
   id: number;
@@ -19,7 +21,7 @@ interface ProductDetailsProps {
   onAddToFavourites: (product: Product) => void;
   onRemoveFromFavourites: (id: number) => void;
   favourites: Product[];
-  onUpdateProductRating: (id: number, newRating: number) => void; 
+  onUpdateProductRating: (id: number, newRating: number) => void;
 }
 
 function ProductDetails({
@@ -28,14 +30,16 @@ function ProductDetails({
   favourites,
   onAddToFavourites,
   onRemoveFromFavourites,
-  onUpdateProductRating
+  onUpdateProductRating,
 }: ProductDetailsProps) {
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p.id === Number(id));
   const [rating, setRating] = useState<number>(0);
   const [reviewText, setReviewText] = useState<string>('');
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [averageRating, setAverageRating] = useState<number>(product?.rating || 0);
+  const [averageRating, setAverageRating] = useState<number>(product?.rating || 0); // Aqui pode estar ocorrendo o erro
+
+  const { user } = useAuth(); 
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -50,7 +54,6 @@ function ProductDetails({
         if (product) {
           onUpdateProductRating(product.id, avgRating);
         }
-
       } catch (error) {
         console.error('Error fetching reviews', error);
       }
@@ -66,11 +69,16 @@ function ProductDetails({
     event.preventDefault();
 
     try {
+      if (!user) {
+        throw new Error('You must be logged in to submit a review');
+      }
+
       const response = await axios.post('http://localhost/ecommerce/api/postReview.php', {
         productId: product?.id,
         rating: rating,
         text: reviewText,
       });
+
       console.log('Review saved: ', response.data);
 
       const newReview = response.data.review;
@@ -80,37 +88,41 @@ function ProductDetails({
       setAverageRating(avgRating);
 
       if (product) {
-        onUpdateProductRating(product.id, avgRating); // Atualiza o rating do produto após a submissão da avaliação
+        onUpdateProductRating(product.id, avgRating);
       }
 
       setRating(0);
       setReviewText('');
     } catch (error) {
       console.error('Error saving review', error);
+      toast.error('Failed to submit review. Please try again later.');
     }
   };
 
   const handleDeleteReview = async (reviewId: number) => {
+    if (!user) {
+      alert('You must be logged in to delete a review.');
+      return;
+    }
+
     try {
       const response = await axios.delete(`http://localhost/ecommerce/api/deleteReview.php?reviewId=${reviewId}`);
       console.log('Review deleted: ', response.data);
-  
-      // Atualiza o estado local removendo o review deletado
+
       setReviews(reviews.filter(review => review.id !== reviewId));
-  
-      // Recalcula a média de rating após a remoção do review
+
       const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
       const newAverageRating = reviews.length > 1 ? totalRating / (reviews.length - 1) : 0;
       setAverageRating(newAverageRating);
-  
+
       if (product) {
-        onUpdateProductRating(product.id, newAverageRating); // Atualiza o rating do produto no estado global
+        onUpdateProductRating(product.id, newAverageRating);
       }
     } catch (error) {
       console.error('Error deleting review', error);
+      toast.error('Failed to delete review. Please try again later.');
     }
   };
-  
 
   if (!product) {
     return <div>Product Not Found</div>;
@@ -129,6 +141,7 @@ function ProductDetails({
 
   return (
     <div className="flex flex-col">
+      <Toaster/>
       <div className="flex gap-5 p-8 h-full">
         <div className="p-4 bg-zinc-800 rounded-md">
           <img src={product.image} alt="Product image" className="rounded-md h-full object-cover" />
@@ -164,10 +177,16 @@ function ProductDetails({
           </div>
           <div className="flex gap-8 items-center">
             <button className="bg-orange-500 hover:bg-orange-600 p-5 rounded-md text-xl w-80" onClick={() => onAddProduct(product.id)}>Add to Cart</button>
-            {isFavourite ? (
-              <FaHeart className='text-3xl text-orange-600 focus-within:outline-none cursor-pointer' onClick={() => onRemoveFromFavourites(product.id)}/>
+            {user ? (
+              isFavourite ? (
+                <FaHeart className='text-3xl text-orange-600 focus-within:outline-none cursor-pointer' onClick={() => onRemoveFromFavourites(product.id)}/>
               ) : (
-              <FaRegHeart className='text-3xl hover:text-orange-600 focus-within:outline-none cursor-pointer' onClick={() => onAddToFavourites(product)}/>
+                <FaRegHeart className='text-3xl hover:text-orange-600 focus-within:outline-none cursor-pointer' onClick={() => onAddToFavourites(product)}/>
+              )
+            ) : (
+              <button className='text-3xl hover:text-orange-600 focus-within:outline-none cursor-pointer' onClick={() => toast.error('You must do login to add to this product to favourites.')}>
+                <FaRegHeart />
+              </button>
             )}
           </div>
         </div>
@@ -215,9 +234,11 @@ function ProductDetails({
                 <div className="flex items-center mb-2">
                   <StarRating rating={review.rating} editable={false} />
                   <span className="ml-2 text-white">{review.rating} / 5</span>
-                  <button className="ml-auto text-white hover:text-red-500" onClick={() => handleDeleteReview(review.id)}>
-                    <FaTrashAlt/>
-                  </button>
+                  {user && (
+                    <button className="ml-auto text-white hover:text-red-500" onClick={() => handleDeleteReview(review.id)}>
+                      <FaTrashAlt/>
+                    </button>
+                  )}
                 </div>
                 <p className="text-white">{review.text}</p>
                 <p className="text-sm text-white">

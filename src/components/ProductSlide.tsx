@@ -4,6 +4,7 @@ import { Product as ProductType } from '../interfaces/interfaces';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './styles/carousel.css'
+import { useNavigate } from 'react-router-dom';
 
 interface ProductSliderProps {
   products: ProductType[];
@@ -36,6 +37,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products, onAddProduct })
       }
     ]
   };
+  const navigate = useNavigate()
 
   return (
     <Slider {...settings}>
@@ -43,7 +45,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products, onAddProduct })
         <div key={product.id} className="p-4">
           <div className="bg-zinc-800 rounded-lg p-6 h-full">
             <img src={product.image} alt={product.title} className="w-full h-48 object-cover rounded"/>
-            <h3 className="text-white mt-4">{product.title}</h3>
+              <h3 className="text-white mt-4 hover:cursor-pointer hover:text-orange-500" onClick={() => navigate(`/product/${product.id}`)}>{product.title}</h3>
             {product.promoPrice ? (
               <div className='flex gap-4 py-2'>
                 <span className='text-2xl text-orange-500 font-bold'>${product.promoPrice.toFixed(2)}</span>

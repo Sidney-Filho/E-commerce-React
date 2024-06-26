@@ -10,7 +10,7 @@ function Cart({cartItems, onDelete}: CartProps) {
 
   const total = cartItems.reduce((sum, item) => {
     const itemPrice = item.promoPrice !== undefined ? item.promoPrice : item.price;
-    return sum + itemPrice
+    return sum + itemPrice * (item.quantity !== undefined ? item.quantity : 1); // Utiliza 1 como valor padrão se quantity for undefined
   }, 0);
 
 
@@ -39,6 +39,7 @@ function Cart({cartItems, onDelete}: CartProps) {
                           <span>${item.price.toFixed(2)}</span>
                         </div>
                       )}
+                      <span className="ml-2 font-bold">Quantity: {item.quantity}</span>
                     </div>
                   </div>
                   <div className="p-4">

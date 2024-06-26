@@ -39,12 +39,30 @@ function App() {
     };
 
     fetchProducts();
+
+    const favouritesFromLocalStorage = JSON.parse(localStorage.getItem('favourites') || '[]')
+    setFavourites(favouritesFromLocalStorage)
   }, []);
 
   const handleAddProduct = (id: number) => {
     const productToAdd = products.find(product => product.id === id);
     if (productToAdd) {
-      setCart([...cart, productToAdd]);
+      // Verifica se o produto já está no carrinho
+      const existingItem = cart.find(item => item.id === id);
+      if (existingItem) {
+        // Se o produto já existe, atualiza apenas a quantidade
+        const updatedCart = cart.map(item => {
+          if (item.id === id) {
+            return { ...item, quantity: (item.quantity || 0) + 1 }; // Inicializ quantity como 0 se for undefined
+          }
+          return item;
+        });
+        setCart(updatedCart);
+      } else {
+        // Se o produto não existe no carrinho, adiciona ao carrinho com quantidade 1
+        setCart([...cart, { ...productToAdd, quantity: 1 }]);
+      }
+  
       toast.success(`${productToAdd.title} added to cart!`, {
         position: 'bottom-right',
         duration: 3000
@@ -64,7 +82,14 @@ function App() {
     const isAlreadyFavourite = favourites.some(fav => fav.id === product.id);
     if (isAlreadyFavourite) {
       window.alert('This product is already in favourites');
+      return
     }
+
+    const updatedFavourites = [...favourites, product]
+
+    // Salvar favoritos no LocalStorage
+    localStorage.setItem('favourites', JSON.stringify(updatedFavourites))
+
     setFavourites(prevFavourites => [...prevFavourites, product]);
     toast.success(`Product Add to Favourites!`, {
       position: 'bottom-right',
@@ -73,7 +98,11 @@ function App() {
   };
 
   const handleRemoveFromFavourites = (id: number) => {
-    setFavourites(favourites.filter(product => product.id !== id));
+    const updatedFavourites = favourites.filter(product => product.id !== id);
+    setFavourites(updatedFavourites);
+
+    // Salvar favoritos atualizados no localStorage
+    localStorage.setItem('favourites', JSON.stringify(updatedFavourites));
     toast.error(`Product Removed from favourites!`, {
       position: 'bottom-right',
       duration: 3000

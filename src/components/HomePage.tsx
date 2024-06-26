@@ -17,7 +17,7 @@ const HomePage: React.FC<HomePageProps> = ({ products, onAddProduct }) => {
     return null
   }
   // Filtra os produtos RTX
-  const rtxProducts = products.filter(product => product.category === 'GraphicCards' && product.title.includes('RTX'));
+  const rtxProducts = Array.isArray(products) ? products.filter(product => product.category === 'GraphicCards' && product.title.includes('RTX')) : [];
 
   return (
     <div>
