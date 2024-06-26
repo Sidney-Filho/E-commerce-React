@@ -98,7 +98,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
   }
 
   return (
-    <div className="relative">
+    <header className="relative">
       <Toaster/>
       {showCatalog && <div className="fixed top-0 left-0 w-full h-dvh bg-black opacity-50 z-40"></div>}
       <div className="flex justify-between items-center p-8 bg-zinc-800 shadow-md relative z-50">
@@ -222,7 +222,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           </span>
         )}
       </div>
-    </div>
+    </header>
   );
 }
 

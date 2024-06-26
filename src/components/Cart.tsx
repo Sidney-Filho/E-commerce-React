@@ -9,10 +9,10 @@ interface CartProps {
 function Cart({cartItems, onDelete}: CartProps) {
 
   const total = cartItems.reduce((sum, item) => {
-    const itemPrice = item.promoPrice !== undefined ? item.promoPrice : item.price;
-    return sum + itemPrice * (item.quantity !== undefined ? item.quantity : 1); // Utiliza 1 como valor padrão se quantity for undefined
+    const itemPrice = typeof item.promoPrice === 'number' && !isNaN(item.promoPrice) ? item.promoPrice : item.price;
+    const quantity = typeof item.quantity === 'number' && !isNaN(item.quantity) ? item.quantity : 1;
+    return sum + itemPrice * quantity;
   }, 0);
-
 
   return(
     <div className="p-8 text-white h-screen">
@@ -39,7 +39,7 @@ function Cart({cartItems, onDelete}: CartProps) {
                           <span>${item.price.toFixed(2)}</span>
                         </div>
                       )}
-                      <span className="ml-2 font-bold">Quantity: {item.quantity}</span>
+                      <span className="ml-2 font-bold">Quantity: {item.quantity !== undefined ? item.quantity : 1}</span>
                     </div>
                   </div>
                   <div className="p-4">

@@ -82,7 +82,7 @@ function Product({
           {promoPrice ? (
             <div className="flex gap-4">
               <div className="absolute top-4 right-4 px-1 py-1 rounded-md font-medium bg-orange-500 text-white">
-                {`-${calculateDiscountAmount(price, promoPrice)?.toFixed(2)} $`}
+                {`-${calculateDiscountAmount(price, promoPrice)} $`}
               </div>
               <span className="text-2xl text-orange-500">${promoPrice.toFixed(2)}</span>
               <span className="text-xl line-through text-white">${price.toFixed(2)}</span>

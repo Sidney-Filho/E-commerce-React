@@ -157,8 +157,8 @@ function ProductDetails({
           <div>
             {product.promoPrice ? (
               <div className="flex gap-4">
-                <span className="text-4xl font-bold text-orange-500">${product.promoPrice}</span>
-                <span className="text-2xl font-bold line-through">${product.price}</span>
+                <span className="text-4xl font-bold text-orange-500">${product.promoPrice.toFixed(2)}</span>
+                <span className="text-2xl font-bold line-through">${product.price.toFixed(2)}</span>
                 <div className="p-3 bg-orange-500 rounded-sm font-bold text-2xl">
                   <p>
                     {`-${calculateDiscountAmount(product.price, product.promoPrice)} $`}
