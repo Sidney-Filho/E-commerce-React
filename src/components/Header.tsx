@@ -101,8 +101,8 @@ function Header({ cartItemsCount, products }: HeaderProps) {
     <header className="relative">
       <Toaster/>
       {showCatalog && <div className="fixed top-0 left-0 w-full h-dvh bg-black opacity-50 z-40"></div>}
-      <div className="flex justify-between items-center p-8 bg-zinc-800 shadow-md relative z-50">
-        <div className="flex justify-center items-center gap-5 text-white">
+      <div className="sm:flex justify-between items-center p-8 bg-zinc-800 shadow-md relative z-50">
+        <div className="flex justify-start items-center gap-5 text-white pb-4">
           <BsList className="text-3xl cursor-pointer hover:text-orange-500 transition-colors" onClick={handleCatalogClick} />
           <Link to="/">
             <h1 className="text-3xl">BuyStore</h1>
@@ -141,8 +141,8 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           </div>
         </div>
         <div className="flex gap-4 relative">
-          <div className="flex gap-4">
-            <div className="absolute text-white bottom-[12px] left-3 text-lg">
+          <div className="flex gap-4 pb-6">
+            <div className="absolute text-white bottom-[36px] left-3 text-lg">
               <BsSearch />
             </div>
             <input
@@ -151,7 +151,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
               onChange={handleSearchChange}
               onKeyPress={handleKeyPress}
               placeholder="Search for a product"
-              className="rounded-sm border-none w-96 py-2 bg-zinc-700 placeholder:p-1 placeholder:text-zinc-400 text-white px-10 focus-within:outline-none"
+              className="rounded-sm border-none w-4/5 md:w-96 py-2 bg-zinc-700 placeholder:p-1 placeholder:text-zinc-400 text-white px-10 focus-within:outline-none"
             />
             <button onClick={handleSearch} className="px-2 bg-orange-600 hover:bg-orange-500 text-white rounded-sm">Search</button>
           </div>
@@ -217,7 +217,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
 
         </div>
         {cartItemsCount > 0 && (
-          <span className="absolute top-6 right-5 bg-orange-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+          <span className="absolute top-10 right-6 bg-orange-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
             {cartItemsCount}
           </span>
         )}

@@ -1,8 +1,8 @@
 function Footer() {
   return(
     <div className="flex flex-col gap-2 bg-zinc-800 text-white">
-      <div className="h-full flex justify-start items-start mt-4 p-20 gap-x-40 bg-zinc-800 text-white">
-        <div>
+      <div className="h-full gap-x-10 p-10 md:flex justify-start items-start mt-4 md:p-20 md:gap-x-40 bg-zinc-800 text-white">
+        <div className="mb-10 md:m-0">
           <h4 className="text-2xl mb-4 font-bold">Client Support</h4>
           <li className="flex flex-col gap-y-3">
             <a href="" className="hover:text-orange-500">Help center</a>
@@ -13,7 +13,7 @@ function Footer() {
           </li>
         </div>
 
-        <div>
+        <div className="mb-10 md:m-0">
           <h4 className="text-2xl mb-4 font-bold">Get to Know Us</h4>
           <li className="flex flex-col gap-y-3">
             <a href="" className="hover:text-orange-500">Sell products on BuyStore</a>
@@ -24,7 +24,7 @@ function Footer() {
           </li>
         </div>
 
-        <div>
+        <div className="mb-10 md:m-0">
           <h4 className="text-2xl mb-4 font-bold">Legal</h4>
           <li className="flex flex-col gap-y-3">
             <a href="" className="hover:text-orange-500">Terms & Conditions</a>

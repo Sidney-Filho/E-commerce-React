@@ -22,13 +22,13 @@ const HomePage: React.FC<HomePageProps> = ({ products, onAddProduct }) => {
   return (
     <div>
       <ImageCarousel/>
-      <section className='py-20 px-24'>
+      <section className='md:py-20 md:px-24 p-10'>
         <div className='flex justify-between items-center'>
           <div className='flex items-center gap-2'>
             <span className='h-6 w-1 bg-orange-500'></span>
-            <h2 className='text-2xl font-bold text-white'>RTX Graphics Cards</h2>
+            <h2 className='text-lg md:text-2xl font-bold text-white'>RTX Graphics Cards</h2>
           </div>
-          <Link to="/catalog?category=GraphicCards" className='text-white p-4 mt-4 border border-orange-500 rounded-md hover:bg-orange-500'>View All RTX Cards</Link>
+          <Link to="/catalog?category=GraphicCards" className='text-sm p-2 text-white md:p-4 mt-4 border border-orange-500 rounded-md hover:bg-orange-500'>View All RTX Cards</Link>
         </div>
         <ProductSlider products={rtxProducts} onAddProduct={onAddProduct} />
       </section>
