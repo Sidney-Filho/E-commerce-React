@@ -20,6 +20,7 @@ import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import UserDashBoard from './components/UserDashboard';
+import CheckoutPage from './components/CheckoutPage';
 
 function App() {
   // Cria um estado que contém arrays, para adicionar produtos ao carrinho e aos favoritos
@@ -136,6 +137,7 @@ function App() {
         <Route path='/dashboard' element={<PrivateRoute />} >
           <Route path='' element={<UserDashBoard />} />
         </Route>
+        <Route path='/payment' element={<CheckoutPage/>}></Route>
       </Routes>
       <Footer />
       <Toaster />

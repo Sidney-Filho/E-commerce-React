@@ -141,8 +141,8 @@ function Header({ cartItemsCount, products }: HeaderProps) {
           </div>
         </div>
         <div className="flex gap-4 relative">
-          <div className="flex gap-4 pb-6">
-            <div className="absolute text-white bottom-[36px] left-3 text-lg">
+          <div className="flex gap-4">
+            <div className="absolute text-white bottom-[12px] left-3 text-lg">
               <BsSearch />
             </div>
             <input

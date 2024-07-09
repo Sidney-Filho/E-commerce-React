@@ -77,7 +77,7 @@ function Product({
           />
           <p className="font-bold text-xs">{`${updatedRating.toFixed(2)} / 5`}</p>
         </div>
-        <p className="text-base w-full truncate h-6">{description}</p>
+        <p className="text-base w-full truncate h-10">{description}</p>
         <div className="font-bold">
           {promoPrice ? (
             <div className="flex gap-4">

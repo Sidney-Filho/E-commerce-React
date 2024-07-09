@@ -95,7 +95,7 @@ function ProductDetails({
       setReviewText('');
     } catch (error) {
       console.error('Error saving review', error);
-      toast.error('Failed to submit review. Please try again later.');
+      toast.error('Failed to submit review. Please Login.');
     }
   };
 
@@ -173,9 +173,9 @@ function ProductDetails({
           </div>
           <div className="mt-14 min-h-96">
             <h2 className="text-lg font-bold mb-2">Description</h2>
-            <p className="text-xl">{product.description}</p>
+            <p className="text-lg">{product.description}</p>
           </div>
-          <div className="flex gap-8 items-center">
+          <div className="flex gap-8 items-center mt-12">
             <button className="bg-orange-500 hover:bg-orange-600 p-5 rounded-md text-xl w-80" onClick={() => onAddProduct(product.id)}>Add to Cart</button>
             {user ? (
               isFavourite ? (
