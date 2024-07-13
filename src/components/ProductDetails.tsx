@@ -38,6 +38,13 @@ function ProductDetails({
   const [reviewText, setReviewText] = useState<string>('');
   const [reviews, setReviews] = useState<Review[]>([]);
   const [averageRating, setAverageRating] = useState<number>(product?.rating || 0); // Aqui pode estar ocorrendo o erro
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
+
+  const truncatedDescription = product?.description.slice(0, 200);
 
   const { user } = useAuth(); 
 
@@ -173,7 +180,13 @@ function ProductDetails({
           </div>
           <div className="mt-14 min-h-96">
             <h2 className="text-lg font-bold mb-2">Description</h2>
-            <p className="text-lg">{product.description}</p>
+            <p className="text-lg">{isDescriptionExpanded ? product.description : `${truncatedDescription}...`}</p>
+            <button
+              className='text-orange-500 font-bold mt-2'
+              onClick={toggleDescription}
+            >
+              {isDescriptionExpanded ? 'Ver menos' : 'Ver mais'}
+            </button>
           </div>
           <div className="flex gap-8 items-center mt-12">
             <button className="bg-orange-500 hover:bg-orange-600 p-5 rounded-md text-xl w-80" onClick={() => onAddProduct(product.id)}>Add to Cart</button>

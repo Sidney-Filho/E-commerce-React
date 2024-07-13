@@ -217,7 +217,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
 
         </div>
         {cartItemsCount > 0 && (
-          <span className="absolute top-10 right-6 bg-orange-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+          <span className="absolute top-9 right-6 bg-orange-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
             {cartItemsCount}
           </span>
         )}

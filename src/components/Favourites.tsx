@@ -5,7 +5,7 @@ interface FavouritesProps {
   favourites: ProductType[]
   onAddToFavourites: (product: ProductType) => void;
   onRemoveFromFavourites: (id: number) => void;
-  onUpdatedRating: (id: number) => void;
+  onUpdatedRating: (id: number, newRating: number) => void;
 }
 
 function Favourites({favourites, onAddToFavourites, onRemoveFromFavourites, onUpdatedRating}: FavouritesProps) {

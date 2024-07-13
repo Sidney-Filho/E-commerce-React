@@ -28,7 +28,7 @@ function Cart({cartItems, onDelete}: CartProps) {
                 <div className="flex items-center justify-between w-full">
                   <div className="flex flex-col">
                     <h3 className="text-xl font-bold">{item.title}</h3>
-                    <p>{item.description}</p>
+                    <p className="truncate w-96">{item.description}</p>
                     <div className="flex">
                       {item.promoPrice ? (
                         <div className="flex gap-2">

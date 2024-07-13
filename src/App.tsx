@@ -1,5 +1,3 @@
-// App.tsx
-
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { Product as ProductType } from './interfaces/interfaces';
@@ -130,7 +128,7 @@ function App() {
         <Route path='/catalog' element={<Catalog products={products} onAddProduct={handleAddProduct} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} favourites={favourites} />} />
         <Route path='/cart' element={<Cart cartItems={cart} onDelete={handleDeleteProduct} />} />
         <Route path='/product/:id' element={<ProductDetails products={products} onAddProduct={handleAddProduct} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} favourites={favourites} onUpdateProductRating={onUpdateProductRating} />} />
-        <Route path='/favourites' element={<Favourites favourites={favourites} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} />} />
+        <Route path='/favourites' element={<Favourites favourites={favourites} onAddToFavourites={handleAddToFavourites} onRemoveFromFavourites={handleRemoveFromFavourites} onUpdatedRating={onUpdateProductRating} />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/create-account' element={<RegisterPage />} />
         <Route path='/' element={<Navigate to='/dashboard' />} />
