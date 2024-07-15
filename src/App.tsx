@@ -10,7 +10,7 @@ import './App.css';
 // Importa os componentes
 import Header from './components/Header';
 import Cart from './components/Cart';
-import HomePage from './components/HomePage';
+import HomePage from './components/Home/HomePage';
 import ProductDetails from './components/ProductDetails';
 import Catalog from './components/Catalog';
 import Favourites from './components/Favourites';
