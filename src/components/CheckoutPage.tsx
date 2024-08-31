@@ -12,7 +12,7 @@ function CheckoutPage(){
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     try {
-      const response = await axios.post('http://localhost/ecommerce/api/payment.php', {
+      const response = await axios.post('http://localhost:8080/ecommerce/api/payment.php', {
         name,
         cardNumber,
         expiryDate,

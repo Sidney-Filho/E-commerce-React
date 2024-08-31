@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from './Context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ function Dashboard() {
 
   const handleDeleteAccount = async (id: number) => {
     try {
-      const response = await axios.get(`http://localhost/ecommerce/api/deleteUser.php?id=${id}`)
+      const response = await axios.get(`http://localhost:8080/ecommerce/api/deleteUser.php?id=${id}`)
       if(response.data.status === 'success') {
         toast.success('Account Deleted', {
           position: 'top-center',

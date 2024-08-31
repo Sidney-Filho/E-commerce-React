@@ -27,10 +27,14 @@ function Catalog({ products, onAddProduct, onAddToFavourites, onRemoveFromFavour
   const [selectedCategory, setSelectedCategory] = useState(categoryFromQuery || 'All');
   const [searchTerm, setSearchTerm] = useState(searchFromQuery || '');
   const [sortOrder, setSortOrder] = useState<'default' | 'price-desc' | 'price-asc'>('default');
-  const [catalogProducts, setCatalogProducts] = useState<ProductType[]>(products);
+  const [catalogProducts, setCatalogProducts] = useState<ProductType[]>(products || []);
 
   useEffect(() => {
-    setCatalogProducts(products);
+    if(Array.isArray(products)) {
+      setCatalogProducts(products)
+    } else {
+      console.error('Products is not an array: ', products)
+    }
   }, [products]);
 
   useEffect(() => {

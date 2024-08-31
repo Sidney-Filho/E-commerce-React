@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./Context/AuthContext";
 
 
 function LoginPage() {
@@ -13,7 +13,7 @@ function LoginPage() {
   const handleLogin = async (e: React.FormEvent <HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost/ecommerce/api/login.php', {
+      const response = await axios.post('http://localhost:8080/ecommerce/api/login.php', {
         email,
         password
       })
@@ -45,7 +45,7 @@ function LoginPage() {
             <label id="email" htmlFor="email" className="font-bold">Email</label>
             <input 
               name="email" 
-              type="text" 
+              type="email" 
               placeholder="Email" 
               className="rounded-sm border-none w-full p-3 bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none"
               value={email}

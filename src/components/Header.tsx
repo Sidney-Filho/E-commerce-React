@@ -3,7 +3,7 @@ import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { Product as ProductType } from "../interfaces/interfaces";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./Context/AuthContext";
 import toast, { Toaster } from 'react-hot-toast';
 
 interface HeaderProps {
@@ -105,7 +105,7 @@ function Header({ cartItemsCount, products }: HeaderProps) {
         <div className="flex justify-start items-center gap-5 text-white pb-4">
           <BsList className="text-3xl cursor-pointer hover:text-orange-500 transition-colors" onClick={handleCatalogClick} />
           <Link to="/">
-            <h1 className="text-3xl">BuyStore</h1>
+            <h1 className="text-3xl">TechWave</h1>
           </Link>
         </div>
         <div

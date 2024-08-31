@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
 import StarRating from './StarRating';
-import { useAuth } from './AuthContext';
+import { useAuth } from './Context/AuthContext';
 import { Product } from '../interfaces/interfaces';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -51,7 +51,7 @@ function ProductDetails({
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`http://localhost/ecommerce/api/getReviews.php?productId=${id}`);
+        const response = await axios.get(`http://localhost:8080/ecommerce/api/getReviews.php?productId=${id}`);
         setReviews(response.data);
 
         const totalRating = response.data.reduce((acc: number, review: Review) => acc + review.rating, 0);

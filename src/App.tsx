@@ -2,14 +2,14 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { Product as ProductType } from './interfaces/interfaces';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
-import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from './components/Context/PrivateRoute';
+import { AuthProvider } from './components/Context/AuthContext';
 import axios from 'axios';
 import './App.css';
 
 // Importa os componentes
 import Header from './components/Header';
-import Cart from './components/Cart';
+import Cart from './components/Cart/Cart';
 import HomePage from './components/Home/HomePage';
 import ProductDetails from './components/ProductDetails';
 import Catalog from './components/Catalog';
@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost/ecommerce/api/getProducts.php');
+        const response = await axios.get('http://localhost:8080/ecommerce/api/getProducts.php');
         setProducts(response.data);
         console.log(response.data);
       } catch(error) {

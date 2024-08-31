@@ -17,7 +17,7 @@ function RegisterPage() {
       return; // Prevent form submission if email is empty
     }
     try {
-      const response = await axios.post('http://localhost/ecommerce/api/registerUser.php', {
+      const response = await axios.post('http://localhost:8080/ecommerce/api/registerUser.php', {
         username,
         email,
         password
