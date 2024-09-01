@@ -56,11 +56,11 @@ function Cart({cartItems, onDelete}: CartProps) {
             <p>
               Total: ${total.toFixed(2)}
             </p>
-          <button className="mt-10 text-center flex justify-center items-center bg-orange-500 p-5 hover:bg-orange-600 transition-all">
             <Link to='/payment'>
-              Proceed to Checkout
+              <button className="mt-10 text-center flex justify-center items-center bg-orange-500 p-5 hover:bg-orange-600 transition-all">
+                  Proceed to Checkout
+              </button>
             </Link>
-          </button>
           </div>
         </div>
       )}
