@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductSlider from './ProductSlide';
-import { Product as ProductType } from '../../interfaces/interfaces';
+import { Product as ProductType } from '../../interfaces/Product Interface/interfaces';
 import ImageCarousel from './ImageCarousel';
 import '../styles/carousel.css'
 

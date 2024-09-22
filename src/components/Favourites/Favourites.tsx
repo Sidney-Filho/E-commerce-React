@@ -1,5 +1,5 @@
-import { Product as ProductType } from "../interfaces/interfaces"
-import Product from "./Product"
+import { Product as ProductType } from "../../interfaces/Product Interface/interfaces"
+import Product from "../Products/Product"
 
 interface FavouritesProps {
   favourites: ProductType[]

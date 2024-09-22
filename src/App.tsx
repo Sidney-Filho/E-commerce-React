@@ -1,6 +1,6 @@
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react';
-import { Product as ProductType } from './interfaces/interfaces';
+import { Product as ProductType } from './interfaces/Product Interface/interfaces';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './components/Context/PrivateRoute';
 import { AuthProvider } from './components/Context/AuthContext';
@@ -13,12 +13,12 @@ import Cart from './components/Cart/Cart';
 import HomePage from './components/Home/HomePage';
 import ProductDetails from './components/ProductDetails';
 import Catalog from './components/Catalog';
-import Favourites from './components/Favourites';
-import Footer from './components/Footer';
+import Favourites from './components/Favourites/Favourites';
+import Footer from './components/Footer/Footer';
 import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import UserDashBoard from './components/UserDashboard';
-import CheckoutPage from './components/CheckoutPage';
+import RegisterPage from './components/Login/RegisterPage';
+import UserDashBoard from './components/User/UserDashboard';
+import CheckoutPage from './components/Checkout/CheckoutPage';
 
 function App() {
   // Cria um estado que contém arrays, para adicionar produtos ao carrinho e aos favoritos

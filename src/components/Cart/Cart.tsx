@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Product } from "../../interfaces/interfaces"
+import { Product } from "../../interfaces/Product Interface/interfaces"
 import { FaTimes } from "react-icons/fa"
 
 interface CartProps {
