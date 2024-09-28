@@ -44,16 +44,16 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ products, onAddProduct })
       {products.map(product => (
         <div key={product.id} className="p-4">
           <div className="bg-zinc-800 rounded-lg p-6 h-full">
-            <img src={product.image} alt={product.title} className="w-full h-48 object-cover rounded"/>
+            <img src={product.imageUrl} alt={product.title} className="w-full h-48 object-cover rounded"/>
               <h3 className="text-white mt-4 hover:cursor-pointer hover:text-orange-500" onClick={() => navigate(`/product/${product.id}`)}>{product.title}</h3>
             {product.promoPrice ? (
               <div className='flex gap-4 py-2'>
-                <span className='text-2xl text-orange-500 font-bold'>${product.promoPrice.toFixed(2)}</span>
-                <span className='text-xl line-through text-white font-bold'>${product.price.toFixed(2)}</span>
+                <span className='text-2xl text-orange-500 font-bold'>${product.promoPrice}</span>
+                <span className='text-xl line-through text-white font-bold'>${product.price}</span>
               </div>
             ): (
               <div className='py-2 px-0'>
-                <span className='text-2xl text-white font-bold'>${product.price.toFixed(2)}</span>
+                <span className='text-2xl text-white font-bold'>${product.price}</span>
               </div>
             )}
             <button 

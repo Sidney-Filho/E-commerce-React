@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { FaShoppingCart, FaUser, FaHeart } from "react-icons/fa";
 import { BsList, BsSearch, BsX } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import { Product as ProductType } from "../interfaces/interfaces";
-import { useAuth } from "./Context/AuthContext";
+import { Product as ProductType } from "../../interfaces/Product Interface/interfaces";
+import { useAuth } from "../Context/AuthContext";
 import toast, { Toaster } from 'react-hot-toast';
 
 interface HeaderProps {

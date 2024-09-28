@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
-import StarRating from './StarRating';
-import { useAuth } from './Context/AuthContext';
-import { Product } from '../interfaces/interfaces';
+import StarRating from '../Rating/StarRating';
+import { useAuth } from '../Context/AuthContext';
+import { Product } from '../../interfaces/Product Interface/interfaces';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface Review {
@@ -51,13 +51,13 @@ function ProductDetails({
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/ecommerce/api/getReviews.php?productId=${id}`);
+        const response = await axios.get(`http://localhost:3001/api/reviews/${id}`);
         setReviews(response.data);
-
+  
         const totalRating = response.data.reduce((acc: number, review: Review) => acc + review.rating, 0);
         const avgRating = response.data.length ? totalRating / response.data.length : 0;
         setAverageRating(avgRating);
-
+  
         if (product) {
           onUpdateProductRating(product.id, avgRating);
         }
@@ -67,6 +67,7 @@ function ProductDetails({
     };
     fetchReviews();
   }, [id, product, onUpdateProductRating]);
+  
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
@@ -74,30 +75,31 @@ function ProductDetails({
 
   const handleSubmitReview = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     try {
       if (!user) {
         throw new Error('You must be logged in to submit a review');
       }
-
-      const response = await axios.post('http://localhost/ecommerce/api/postReview.php', {
+  
+      const response = await axios.post('http://localhost:3001/api/reviews', {
         productId: product?.id,
         rating: rating,
         text: reviewText,
+        userId: user.id // Assumindo que o user tem um ID
       });
-
+  
       console.log('Review saved: ', response.data);
-
+  
       const newReview = response.data.review;
       setReviews((prevReviews) => [...prevReviews, newReview]);
-
+  
       const avgRating = parseFloat(response.data.averageRating);
       setAverageRating(avgRating);
-
+  
       if (product) {
         onUpdateProductRating(product.id, avgRating);
       }
-
+  
       setRating(0);
       setReviewText('');
     } catch (error) {
@@ -105,26 +107,32 @@ function ProductDetails({
       toast.error('Failed to submit review. Please Login.');
     }
   };
+  
 
   const handleDeleteReview = async (reviewId: number) => {
     if (!user) {
       alert('You must be logged in to delete a review.');
       return;
     }
-
+  
     try {
-      const response = await axios.delete(`http://localhost/ecommerce/api/deleteReview.php?reviewId=${reviewId}`);
+      // Faça a requisição DELETE para o backend
+      const response = await axios.delete(`http://localhost:3001/api/reviews/${reviewId}`);
       console.log('Review deleted: ', response.data);
-
+  
+      // Atualiza a lista de reviews no front-end
       setReviews(reviews.filter(review => review.id !== reviewId));
-
+  
+      // Recalcula a média de avaliações após a exclusão do review
       const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
       const newAverageRating = reviews.length > 1 ? totalRating / (reviews.length - 1) : 0;
       setAverageRating(newAverageRating);
-
+  
       if (product) {
         onUpdateProductRating(product.id, newAverageRating);
       }
+  
+      toast.success('Review deleted successfully.');
     } catch (error) {
       console.error('Error deleting review', error);
       toast.error('Failed to delete review. Please try again later.');
@@ -151,21 +159,21 @@ function ProductDetails({
       <Toaster/>
       <div className="flex gap-5 p-8 h-full">
         <div className="p-4 bg-zinc-800 rounded-md">
-          <img src={product.image} alt="Product image" className="rounded-md h-full object-cover" />
+          <img src={product.imageUrl} alt="Product image" className="rounded-md h-full object-cover" />
         </div>
         <div className="w-4/5 bg-zinc-800 p-10 text-white rounded-md">
           <h2 className="text-4xl mb-2">{product.title}</h2>
           <div className="mb-10 flex items-center gap-2">
             <StarRating rating={averageRating} editable={false} />
             <p className='font-bold text-xs'>
-              {`${averageRating.toFixed(2)} / 5`}
+              {`${averageRating} / 5`}
             </p>
           </div>
           <div>
             {product.promoPrice ? (
               <div className="flex gap-4">
-                <span className="text-4xl font-bold text-orange-500">${product.promoPrice.toFixed(2)}</span>
-                <span className="text-2xl font-bold line-through">${product.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold text-orange-500">${product.promoPrice}</span>
+                <span className="text-2xl font-bold line-through">${product.price}</span>
                 <div className="p-3 bg-orange-500 rounded-sm font-bold text-2xl">
                   <p>
                     {`-${calculateDiscountAmount(product.price, product.promoPrice)} $`}
@@ -174,7 +182,7 @@ function ProductDetails({
               </div>
             ) : (
               <div>
-                <span className="text-4xl font-bold">${product.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold">${product.price}</span>
               </div>
             )}
           </div>

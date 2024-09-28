@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Product as ProductType } from '../interfaces/interfaces';
+import { Product as ProductType } from '../../interfaces/Product Interface/interfaces';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Tooltip } from 'react-tooltip';
-import StarRating from './StarRating';
+import StarRating from '../Rating/StarRating';
 
 interface ProductProps extends ProductType {
   onAddProduct: (id: number) => void;
@@ -19,7 +19,8 @@ function Product({
   title,
   description,
   price,
-  image, 
+  image,
+  imageUrl, 
   category,
   rating,
   promoPrice,
@@ -43,7 +44,7 @@ function Product({
     if (isFavouriteLocal) {
       onRemoveFromFavourites(id);
     } else {
-      onAddToFavourites({ id, title, description, price, image, category, rating });
+      onAddToFavourites({ id, title, description, price, image, imageUrl, category, rating });
     }
     setIsFavouriteLocal(!isFavouriteLocal); // Alterna o estado local de favorito
   }
@@ -60,7 +61,7 @@ function Product({
     <div className="flex flex-col bg-zinc-800 p-3 rounded-md w-72 h-cardHeight text-white relative">
       <div className="w-full h-full overflow-hidden cursor-pointer" onClick={() => navigate(`/product/${id}`)}>
         <img
-          src={image}// Utiliza diretamente o caminho da imagem fornecido pelo backend
+          src={imageUrl}// Utiliza diretamente o caminho da imagem fornecido pelo backend
           className="rounded-md h-full w-full transform transition-transform duration-300 hover:scale-105"
           alt={title}
         />
@@ -75,7 +76,7 @@ function Product({
             editable={false}
             onRatingChange={(newRating) => onUpdatedRating(id, newRating)}
           />
-          <p className="font-bold text-xs">{`${updatedRating.toFixed(2)} / 5`}</p>
+          <p className="font-bold text-xs">{`${updatedRating} / 5`}</p>
         </div>
         <p className="text-base w-full truncate h-10">{description}</p>
         <div className="font-bold">
@@ -84,11 +85,11 @@ function Product({
               <div className="absolute top-4 right-4 px-1 py-1 rounded-md font-medium bg-orange-500 text-white">
                 {`-${calculateDiscountAmount(price, promoPrice)} $`}
               </div>
-              <span className="text-2xl text-orange-500">${promoPrice.toFixed(2)}</span>
-              <span className="text-xl line-through text-white">${price.toFixed(2)}</span>
+              <span className="text-2xl text-orange-500">${promoPrice}</span>
+              <span className="text-xl line-through text-white">${price}</span>
             </div>
           ) : (
-            <span className="text-2xl">${price.toFixed(2)}</span>
+            <span className="text-2xl">${price}</span>
           )}
         </div>
       </div>

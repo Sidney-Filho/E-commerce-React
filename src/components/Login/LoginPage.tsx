@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from "./Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 
 
 function LoginPage() {
