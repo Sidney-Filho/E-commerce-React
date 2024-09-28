@@ -8,14 +8,14 @@ import axios from 'axios';
 import './App.css';
 
 // Importa os componentes
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import Cart from './components/Cart/Cart';
 import HomePage from './components/Home/HomePage';
-import ProductDetails from './components/ProductDetails';
-import Catalog from './components/Catalog';
+import ProductDetails from './components/Products/ProductDetails';
+import Catalog from './components/Products/Catalog';
 import Favourites from './components/Favourites/Favourites';
 import Footer from './components/Footer/Footer';
-import LoginPage from './components/LoginPage';
+import LoginPage from './components/Login/LoginPage';
 import RegisterPage from './components/Login/RegisterPage';
 import UserDashBoard from './components/User/UserDashboard';
 import CheckoutPage from './components/Checkout/CheckoutPage';
@@ -27,21 +27,40 @@ function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
 
   useEffect(() => {
+    // Função assíncrona para buscar produtos
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ecommerce/api/getProducts.php');
-        setProducts(response.data);
-        console.log(response.data);
-      } catch(error) {
+        // Faz a requisição GET para o back-end Node.js
+        const response = await axios.get<ProductType[]>('http://localhost:3001/api/products');
+  
+        // Define os produtos no estado após a resposta, com caminho completo para as imagens
+        const productsWithImages = response.data.map(product => ({
+          ...product,
+          // Adiciona o caminho correto da pasta 'assets/images' seguido pela subpasta
+          imageUrl: `/assets/images/${product.category}/${product.image}`
+        }));
+  
+        setProducts(productsWithImages);
+        console.log(productsWithImages);
+      } catch (error) {
         console.error('Error fetching products: ', error);
       }
     };
-
+  
+    // Chama a função para buscar os produtos
     fetchProducts();
-
-    const favouritesFromLocalStorage = JSON.parse(localStorage.getItem('favourites') || '[]')
-    setFavourites(favouritesFromLocalStorage)
+  
+    // Recupera os favoritos do localStorage
+    const favouritesFromLocalStorage: ProductType[] = JSON.parse(localStorage.getItem('favourites') || '[]');
+    setFavourites(favouritesFromLocalStorage);
+  
+    // Limpeza (opcional) se necessário
+    return () => {
+      // Aqui você pode adicionar qualquer lógica de limpeza se for necessário
+    };
   }, []);
+  
+  
 
   const handleAddProduct = (id: number) => {
     const productToAdd = products.find(product => product.id === id);
