@@ -10,6 +10,9 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+// Config do diretorio estatico
+app.use('../../src/assets', express.static('assets'))
+
 // Use as rotas de produtos
 app.use('/api/products', productsRouter);
 app.use('/api/reviews', reviewsRouter);
