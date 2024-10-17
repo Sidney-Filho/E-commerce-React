@@ -32,12 +32,12 @@ function Cart({cartItems, onDelete}: CartProps) {
                     <div className="flex">
                       {item.promoPrice ? (
                         <div className="flex gap-2">
-                          <span className="text-orange-500">${item.promoPrice.toFixed(2)}</span>
-                          <span className="line-through">${item.price.toFixed(2)}</span>
+                          <span className="text-orange-500">${item.promoPrice}</span>
+                          <span className="line-through">${item.price}</span>
                         </div>
                       ) : (
                         <div>
-                          <span>${item.price.toFixed(2)}</span>
+                          <span>${item.price}</span>
                         </div>
                       )}
                       <span className="ml-2 font-bold">Quantity: {item.quantity !== undefined ? item.quantity : 1}</span>
@@ -54,7 +54,7 @@ function Cart({cartItems, onDelete}: CartProps) {
           </div>
           <div className="w-3/12 h-1/2 bg-zinc-700 p-6 rounded-md text-white">
             <p>
-              Total: ${total.toFixed(2)}
+              Total: ${total}
             </p>
             <Link to='/payment'>
               <button className="mt-10 text-center flex justify-center items-center bg-orange-500 p-5 hover:bg-orange-600 transition-all">

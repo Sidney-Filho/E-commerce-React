@@ -47,7 +47,7 @@ function CheckoutPage(){
         <div className="flex flex-col gap-3">
           <label>Card Number</label>
           <input 
-            type="text"
+            type="number"
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)} 
             className="rounded-sm p-2 border-none bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none" 
@@ -69,7 +69,7 @@ function CheckoutPage(){
         <div className="flex flex-col gap-3">
           <label>CVV</label>
           <input 
-            type="text"
+            type="number"
             value={cvv}
             onChange={(e) => setCvv(e.target.value)} 
             className="rounded-sm p-2 border-none bg-zinc-700 placeholder:text-zinc-400 text-white focus-within:outline-none"
